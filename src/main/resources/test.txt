@@ -1,0 +1,11 @@
+((FacebookFriends(KISI) > 10 AND TwitterFollowers(HESAP) != 100 ) AND Events(KISI) == true))
+
+FacebookFriends(KISI) AND (TwitterFollowers(HESAP) > 10) OR (SomeFunc(KISI) + 10 > 100) AND SomeOtherFunc(KISI) == "serkan"
+
+
+
+TWITTER_LIMIT = 100;
+Result = FacebookFriends(KISI) AND
+    (TwitterFollowers(HESAP) > TWITTER_LIMIT) OR
+    (SomeFunc(KISI) + 10 > 100) AND SomeOtherFunc(KISI) == "serkan";
+return Result;
