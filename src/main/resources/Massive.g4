@@ -16,6 +16,7 @@ exp : exp ARITHMETIC_OPERATOR exp #arithmetic_exp
     | exp EQUALITY_OPERATOR exp #equality_exp
     | exp LOGICAL_OPERATOR exp #logical_exp
     | operand #operand_exp
+    | function_call #function_call_exp
     | '(' exp ')' #nested_exp
     ;
 
@@ -24,8 +25,7 @@ function_call : ID'('INTERNAL_TYPE')' ;
 operand : STRING_LITERAL #string_literal
         | NUMBER_LITERAL #number_literal
         | BOOLEAN_LITERAL #boolean_literal
-        | function_call #function
-        | ID #variable
+        | ID #id_operand
         ;
 
 BOOLEAN_LITERAL : 'false' | 'true' ;
