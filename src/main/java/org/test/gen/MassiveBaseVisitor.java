@@ -1,8 +1,10 @@
 // Generated from /home/serkan/dev/progressive-vm/src/main/resources/Massive.g4 by ANTLR 4.5
 package org.test.gen;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.test.ast.*;
 
 import java.util.ArrayList;
@@ -12,9 +14,6 @@ import java.util.List;
  * This class provides an empty implementation of {@link MassiveVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
  * of the available methods.
- *
- * @param <T> The return type of the visit operation. Use {@link Void} for
- *            operations with no return type.
  */
 public class MassiveBaseVisitor extends AbstractParseTreeVisitor<ASTBase> implements MassiveVisitor<ASTBase> {
 
@@ -29,7 +28,7 @@ public class MassiveBaseVisitor extends AbstractParseTreeVisitor<ASTBase> implem
         List<MassiveParser.StatContext> stats = ctx.stat();
         List<StatementNode> statementNodes = new ArrayList<>(stats.size());
         for (MassiveParser.StatContext stat : stats) {
-            statementNodes.add((StatementNode) visitStat(stat));
+            statementNodes.add((StatementNode) stat.accept(this));
         }
         ProgramNode node = new ProgramNode(statementNodes);
         return node;
@@ -43,7 +42,25 @@ public class MassiveBaseVisitor extends AbstractParseTreeVisitor<ASTBase> implem
      */
     @Override
     public ASTBase visitStat(@NotNull MassiveParser.StatContext ctx) {
-        return visitChildren(ctx);
+        return visitChildrenAndGetTree(ctx);
+    }
+
+
+    private ASTBase visitChildrenAndGetTree(ParserRuleContext ctx) {
+        int childCount = ctx.getChildCount();
+        List<ASTBase> children = new ArrayList<>(childCount);
+        for (int i = 0; i < childCount; i++) {
+            ParseTree c = ctx.getChild(i);
+            ASTBase visit = visit(c);
+            if (visit != null) {
+                children.add(visit);
+            }
+        }
+        if (children.size() == 1) {
+            return children.get(0);
+        } else {
+            throw new IllegalStateException("AST can not be build due to unhandled children");
+        }
     }
 
     /**
@@ -55,7 +72,7 @@ public class MassiveBaseVisitor extends AbstractParseTreeVisitor<ASTBase> implem
     @Override
     public ASTBase visitAssign_stat(@NotNull MassiveParser.Assign_statContext ctx) {
         String id = ctx.ID().getText();
-        ExpressionNode expression = (ExpressionNode) visitChildren(ctx.exp());
+        ExpressionNode expression = (ExpressionNode) visit(ctx.exp());
         AssignStatementNode assignStatementNode = new AssignStatementNode(id, expression);
         return assignStatementNode;
     }
@@ -98,7 +115,7 @@ public class MassiveBaseVisitor extends AbstractParseTreeVisitor<ASTBase> implem
      */
     @Override
     public ASTBase visitOperand_exp(@NotNull MassiveParser.Operand_expContext ctx) {
-        return visitChildren(ctx.operand());
+        return visitChildrenAndGetTree(ctx);
     }
 
     /**
@@ -109,7 +126,7 @@ public class MassiveBaseVisitor extends AbstractParseTreeVisitor<ASTBase> implem
      */
     @Override
     public ASTBase visitNested_exp(@NotNull MassiveParser.Nested_expContext ctx) {
-        return visitChildren(ctx.exp());
+        return visitChildrenAndGetTree(ctx);
     }
 
     /**

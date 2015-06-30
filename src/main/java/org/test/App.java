@@ -18,6 +18,8 @@ public class App {
                 "    (SomeFunc(KISI) + 10 > 100) AND SomeOtherFunc(KISI) == \"serkan\";\n" +
                 "return Result;";
 
+//        String code = "return SomeFunc(KISI) + 10 > 100";
+
 
         ANTLRInputStream is = new ANTLRInputStream(code);
         MassiveLexer lexer = new MassiveLexer(is);
