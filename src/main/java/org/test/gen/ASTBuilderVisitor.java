@@ -15,7 +15,7 @@ import java.util.List;
  * which can be extended to create a visitor which only needs to handle a subset
  * of the available methods.
  */
-public class MassiveBaseVisitor extends AbstractParseTreeVisitor<ASTBase> implements MassiveVisitor<ASTBase> {
+public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> implements MassiveVisitor<ASTBase> {
 
     /**
      * {@inheritDoc}

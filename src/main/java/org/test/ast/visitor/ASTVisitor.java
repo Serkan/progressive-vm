@@ -11,8 +11,6 @@ public interface ASTVisitor {
 
     void visit(AssignStatementNode node);
 
-    void visit(ASTBase node);
-
     void visit(BooleanNode node);
 
     void visit(EqualityExpressionNode node);
@@ -37,4 +35,5 @@ public interface ASTVisitor {
 
     void visit(StringNode node);
 
+    void visit(ASTBase node);
 }

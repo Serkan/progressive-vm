@@ -10,4 +10,8 @@ public class ReturnStatementNode extends StatementNode {
     public ReturnStatementNode(ExpressionNode expression) {
         this.expression = expression;
     }
+
+    public ExpressionNode getExpression() {
+        return expression;
+    }
 }

@@ -3,7 +3,10 @@ package org.test;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BufferedTokenStream;
 import org.test.ast.ASTBase;
-import org.test.gen.MassiveBaseVisitor;
+import org.test.ast.ProgramNode;
+import org.test.ast.control.ReturnControlException;
+import org.test.ast.visitor.ExecutionVisitor;
+import org.test.gen.ASTBuilderVisitor;
 import org.test.gen.MassiveLexer;
 import org.test.gen.MassiveParser;
 
@@ -26,8 +29,15 @@ public class App {
         BufferedTokenStream stream = new BufferedTokenStream(lexer);
         MassiveParser parser = new MassiveParser(stream);
 
-        MassiveBaseVisitor visitor = new MassiveBaseVisitor();
-        ASTBase tree = visitor.visitProgram(parser.program());
-        System.out.println(tree);
+        ASTBuilderVisitor visitor = new ASTBuilderVisitor();
+        ProgramNode ast = (ProgramNode) visitor.visitProgram(parser.program());
+        ExecutionVisitor executionVisitor = new ExecutionVisitor();
+        Object result = null;
+        try {
+            ast.accept(executionVisitor);
+        } catch (ReturnControlException e) {
+            result = e.getResult();
+        }
+        System.out.println("Result : " + result);
     }
 }

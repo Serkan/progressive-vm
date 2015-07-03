@@ -12,6 +12,9 @@ public class ProgramNode extends ASTBase {
 
     public ProgramNode(List<StatementNode> statements) {
         this.statements = statements;
-        this.statements = statements;
+    }
+
+    public List<StatementNode> getStatements() {
+        return statements;
     }
 }

@@ -10,4 +10,8 @@ public class BooleanNode extends ExpressionNode {
     public BooleanNode(String text) {
         this.value = Boolean.parseBoolean(text);
     }
+
+    public Boolean getValue() {
+        return value;
+    }
 }

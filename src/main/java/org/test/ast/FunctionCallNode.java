@@ -13,4 +13,12 @@ public class FunctionCallNode extends ExpressionNode {
         this.functionName = functionName;
         this.variableReference = variableReference;
     }
+
+    public String getFunctionName() {
+        return functionName;
+    }
+
+    public String getVariableReference() {
+        return variableReference;
+    }
 }

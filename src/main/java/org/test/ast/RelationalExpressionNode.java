@@ -16,4 +16,16 @@ public class RelationalExpressionNode extends ExpressionNode {
         this.leftNode = leftNode;
         this.rightNode = rightNode;
     }
+
+    public ExpressionNode getLeftNode() {
+        return leftNode;
+    }
+
+    public ExpressionNode getRightNode() {
+        return rightNode;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
 }

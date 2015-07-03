@@ -14,4 +14,16 @@ public class LogicalExpressionNode extends ExpressionNode {
         this.leftExp = leftExp;
         this.rightExp = rightExp;
     }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public ExpressionNode getLeftExp() {
+        return leftExp;
+    }
+
+    public ExpressionNode getRightExp() {
+        return rightExp;
+    }
 }

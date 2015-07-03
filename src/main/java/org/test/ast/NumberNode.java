@@ -10,4 +10,8 @@ public class NumberNode extends ExpressionNode {
     public NumberNode(String text) {
         this.value = Double.parseDouble(text);
     }
+
+    public Double getValue() {
+        return value;
+    }
 }
