@@ -7,8 +7,6 @@ import org.test.ast.visitor.ASTVisitor;
  */
 public abstract class ASTBase {
 
-    public final void accept(ASTVisitor visitor) {
-        visitor.visit(this);
-    }
+    public abstract void accept(ASTVisitor visitor);
 
 }

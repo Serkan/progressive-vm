@@ -1,5 +1,7 @@
 package org.test.ast;
 
+import org.test.ast.visitor.ASTVisitor;
+
 import java.util.List;
 
 /**
@@ -16,5 +18,10 @@ public class ProgramNode extends ASTBase {
 
     public List<StatementNode> getStatements() {
         return statements;
+    }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
 }

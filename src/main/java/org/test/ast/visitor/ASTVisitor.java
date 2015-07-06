@@ -15,8 +15,6 @@ public interface ASTVisitor {
 
     void visit(EqualityExpressionNode node);
 
-    void visit(ExpressionNode node);
-
     void visit(FunctionCallNode node);
 
     void visit(IDNode node);
@@ -31,9 +29,6 @@ public interface ASTVisitor {
 
     void visit(ReturnStatementNode node);
 
-    void visit(StatementNode node);
-
     void visit(StringNode node);
 
-    void visit(ASTBase node);
 }

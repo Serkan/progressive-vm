@@ -3,7 +3,6 @@ package org.test;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BufferedTokenStream;
 import org.test.ast.ASTBase;
-import org.test.ast.ProgramNode;
 import org.test.ast.control.ReturnControlException;
 import org.test.ast.visitor.ExecutionVisitor;
 import org.test.gen.ASTBuilderVisitor;
@@ -30,7 +29,7 @@ public class App {
         MassiveParser parser = new MassiveParser(stream);
 
         ASTBuilderVisitor visitor = new ASTBuilderVisitor();
-        ProgramNode ast = (ProgramNode) visitor.visitProgram(parser.program());
+        ASTBase ast = visitor.visitProgram(parser.program());
         ExecutionVisitor executionVisitor = new ExecutionVisitor();
         Object result = null;
         try {

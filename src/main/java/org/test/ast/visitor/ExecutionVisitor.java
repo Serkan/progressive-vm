@@ -139,11 +139,21 @@ public class ExecutionVisitor implements ASTVisitor {
         String functionName = node.getFunctionName();
         // TODO find and call function
         // TODO push result to stack back
+        // TODO change mock call
+        if (functionName.equals("FacebookFriends")) {
+            operandStack.push(Boolean.TRUE);
+        } else if (functionName.equals("TwitterFollowers")) {
+            operandStack.push(Double.valueOf(50d));
+        } else if (functionName.equals("SomeFunc")) {
+            operandStack.push(Double.valueOf(100d));
+        } else if (functionName.equals("SomeOtherFunc")) {
+            operandStack.push("serkan");
+        }
     }
 
     @Override
     public void visit(IDNode node) {
-        operandStack.push(node.getId());
+        operandStack.push(memory.get(node.getId()));
     }
 
     @Override
@@ -166,21 +176,6 @@ public class ExecutionVisitor implements ASTVisitor {
     public void visit(ReturnStatementNode node) {
         node.getExpression().accept(this);
         throw new ReturnControlException(operandStack.pop());
-    }
-
-    @Override
-    public void visit(ASTBase node) {
-        // no op
-    }
-
-    @Override
-    public void visit(ExpressionNode node) {
-        // no op
-    }
-
-    @Override
-    public void visit(StatementNode node) {
-        // no op
     }
 
 }

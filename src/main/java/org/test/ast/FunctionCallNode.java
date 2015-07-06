@@ -1,5 +1,7 @@
 package org.test.ast;
 
+import org.test.ast.visitor.ASTVisitor;
+
 /**
  * Created by serkan on 29.06.2015.
  */
@@ -20,5 +22,10 @@ public class FunctionCallNode extends ExpressionNode {
 
     public String getVariableReference() {
         return variableReference;
+    }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
 }

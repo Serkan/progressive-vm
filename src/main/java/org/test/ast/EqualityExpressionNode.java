@@ -1,5 +1,7 @@
 package org.test.ast;
 
+import org.test.ast.visitor.ASTVisitor;
+
 /**
  * Created by serkan on 29.06.2015.
  */
@@ -27,5 +29,10 @@ public class EqualityExpressionNode extends ExpressionNode {
 
     public String getOperator() {
         return operator;
+    }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
 }

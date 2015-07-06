@@ -1,5 +1,7 @@
 package org.test.ast;
 
+import org.test.ast.visitor.ASTVisitor;
+
 /**
  * Created by serkan on 29.06.2015.
  */
@@ -25,5 +27,10 @@ public class LogicalExpressionNode extends ExpressionNode {
 
     public ExpressionNode getRightExp() {
         return rightExp;
+    }
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
 }

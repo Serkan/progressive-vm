@@ -23,8 +23,8 @@
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
-            <artifactId>antlr-complete</artifactId>
-            <version>4.5(custom)</version>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.5</version>
         </dependency>
     </dependencies>
 
@@ -35,8 +35,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
         </plugins>
