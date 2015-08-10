@@ -1,6 +1,7 @@
 package org.test.ast;
 
 import org.test.ast.visitor.ASTVisitor;
+import org.test.gen.CodePosition;
 
 /**
  * Created by serkan on 29.06.2015.
@@ -11,7 +12,8 @@ public class FunctionCallNode extends ExpressionNode {
 
     private String variableReference;
 
-    public FunctionCallNode(String functionName, String variableReference) {
+    public FunctionCallNode(CodePosition pos, String functionName, String variableReference) {
+        super(pos);
         this.functionName = functionName;
         this.variableReference = variableReference;
     }

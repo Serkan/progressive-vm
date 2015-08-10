@@ -1,6 +1,7 @@
 package org.test.ast;
 
 import org.test.ast.visitor.ASTVisitor;
+import org.test.gen.CodePosition;
 
 /**
  * Created by serkan on 29.06.2015.
@@ -11,7 +12,8 @@ public class LogicalExpressionNode extends ExpressionNode {
     private final ExpressionNode leftExp;
     private final ExpressionNode rightExp;
 
-    public LogicalExpressionNode(String operator, ExpressionNode leftExp, ExpressionNode rightExp) {
+    public LogicalExpressionNode(CodePosition pos, String operator, ExpressionNode leftExp, ExpressionNode rightExp) {
+        super(pos);
         this.operator = operator;
         this.leftExp = leftExp;
         this.rightExp = rightExp;

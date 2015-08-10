@@ -4,7 +4,10 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BufferedTokenStream;
 import org.test.ast.ASTBase;
 import org.test.ast.control.ReturnControlException;
+import org.test.ast.env.MassiveEnvironment;
+import org.test.ast.env.Symbol;
 import org.test.ast.visitor.ExecutionVisitor;
+import org.test.ast.visitor.TypeCheckVisitor;
 import org.test.gen.ASTBuilderVisitor;
 import org.test.gen.MassiveLexer;
 import org.test.gen.MassiveParser;
@@ -30,13 +33,44 @@ public class App {
 
         ASTBuilderVisitor visitor = new ASTBuilderVisitor();
         ASTBase ast = visitor.visitProgram(parser.program());
-        ExecutionVisitor executionVisitor = new ExecutionVisitor();
-        Object result = null;
-        try {
-            ast.accept(executionVisitor);
-        } catch (ReturnControlException e) {
-            result = e.getResult();
-        }
-        System.out.println("Result : " + result);
+
+
+        // do type checking
+        TypeCheckVisitor typeChecker = new TypeCheckVisitor(new MassiveEnvironment() {
+            @Override
+            public Symbol lookup(String identifier) {
+                TypeCheckVisitor.MassiveTypes type;
+                switch (identifier) {
+                    case "FacebookFriends":
+                        type = TypeCheckVisitor.MassiveTypes.BOOLEAN;
+                        break;
+                    case "TwitterFollowers":
+                        type = TypeCheckVisitor.MassiveTypes.NUMBER;
+                        break;
+                    case "SomeFunc":
+                        type = TypeCheckVisitor.MassiveTypes.NUMBER;
+                        break;
+                    case "SomeOtherFunc":
+                        type = TypeCheckVisitor.MassiveTypes.STRING;
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unknown identifier name");
+                }
+                return new Symbol(identifier, type);
+            }
+        });
+        ast.accept(typeChecker);
+
+        // do execution
+//        ExecutionVisitor executionVisitor = new ExecutionVisitor();
+//        Object result = null;
+//        try {
+//            ast.accept(executionVisitor);
+//        } catch (ReturnControlException e) {
+//            result = e.getResult();
+//        }
+//
+//
+//        System.out.println("Result : " + result);
     }
 }

@@ -17,6 +17,16 @@ import java.util.List;
  */
 public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> implements MassiveVisitor<ASTBase> {
 
+    private CodePosition extractPosition(ParserRuleContext ctx) {
+        int startLine = ctx.getStart().getLine();
+        int stopLine = ctx.getStop().getLine();
+        String line = startLine - stopLine == 0 ? String.valueOf(startLine) : startLine + "..." + stopLine;
+        int startIndex = ctx.getStart().getStartIndex();
+        int stopIndex = ctx.getStop().getStopIndex();
+        return new CodePosition(startIndex, stopIndex, line);
+    }
+
+
     /**
      * {@inheritDoc}
      * <p>
@@ -30,7 +40,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
         for (MassiveParser.StatContext stat : stats) {
             statementNodes.add((StatementNode) stat.accept(this));
         }
-        ProgramNode node = new ProgramNode(statementNodes);
+        ProgramNode node = new ProgramNode(extractPosition(ctx), statementNodes);
         return node;
     }
 
@@ -73,7 +83,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
     public ASTBase visitAssign_stat(@NotNull MassiveParser.Assign_statContext ctx) {
         String id = ctx.ID().getText();
         ExpressionNode expression = (ExpressionNode) visit(ctx.exp());
-        AssignStatementNode assignStatementNode = new AssignStatementNode(id, expression);
+        AssignStatementNode assignStatementNode = new AssignStatementNode(extractPosition(ctx), id, expression);
         return assignStatementNode;
     }
 
@@ -86,7 +96,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
     @Override
     public ASTBase visitReturn_stat(@NotNull MassiveParser.Return_statContext ctx) {
         ExpressionNode expression = (ExpressionNode) visit(ctx.exp());
-        ReturnStatementNode returnNode = new ReturnStatementNode(expression);
+        ReturnStatementNode returnNode = new ReturnStatementNode(extractPosition(ctx), expression);
         return returnNode;
     }
 
@@ -103,7 +113,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
         MassiveParser.ExpContext rightExp = ctx.exp(1);
         ExpressionNode leftNode = (ExpressionNode) visit(leftExp);
         ExpressionNode rightNode = (ExpressionNode) visit(rightExp);
-        LogicalExpressionNode logicalExpressionNode = new LogicalExpressionNode(operator, leftNode, rightNode);
+        LogicalExpressionNode logicalExpressionNode = new LogicalExpressionNode(extractPosition(ctx), operator, leftNode, rightNode);
         return logicalExpressionNode;
     }
 
@@ -142,7 +152,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
         MassiveParser.ExpContext rightExp = ctx.exp(1);
         ExpressionNode leftNode = (ExpressionNode) visit(leftExp);
         ExpressionNode rightNode = (ExpressionNode) visit(rightExp);
-        EqualityExpressionNode equalityExpressionNode = new EqualityExpressionNode(operator, leftNode, rightNode);
+        EqualityExpressionNode equalityExpressionNode = new EqualityExpressionNode(extractPosition(ctx), operator, leftNode, rightNode);
         return equalityExpressionNode;
     }
 
@@ -159,7 +169,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
         MassiveParser.ExpContext rightExp = ctx.exp(1);
         ExpressionNode leftNode = (ExpressionNode) visit(leftExp);
         ExpressionNode rightNode = (ExpressionNode) visit(rightExp);
-        ArithmeticExpressionNode arithmeticExpressionNode = new ArithmeticExpressionNode(operator, leftNode, rightNode);
+        ArithmeticExpressionNode arithmeticExpressionNode = new ArithmeticExpressionNode(extractPosition(ctx), operator, leftNode, rightNode);
         return arithmeticExpressionNode;
     }
 
@@ -176,7 +186,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
         MassiveParser.ExpContext rightExp = ctx.exp(1);
         ExpressionNode leftNode = (ExpressionNode) visit(leftExp);
         ExpressionNode rightNode = (ExpressionNode) visit(rightExp);
-        RelationalExpressionNode relationalExpressionNode = new RelationalExpressionNode(operator, leftNode, rightNode);
+        RelationalExpressionNode relationalExpressionNode = new RelationalExpressionNode(extractPosition(ctx), operator, leftNode, rightNode);
         return relationalExpressionNode;
     }
 
@@ -190,7 +200,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
     public ASTBase visitFunction_call(@NotNull MassiveParser.Function_callContext ctx) {
         String functionName = ctx.ID().getText();
         String variableReference = ctx.INTERNAL_TYPE().getText();
-        FunctionCallNode functionCallNode = new FunctionCallNode(functionName, variableReference);
+        FunctionCallNode functionCallNode = new FunctionCallNode(extractPosition(ctx), functionName, variableReference);
         return functionCallNode;
     }
 
@@ -213,7 +223,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
      */
     @Override
     public ASTBase visitString_literal(@NotNull MassiveParser.String_literalContext ctx) {
-        StringNode stringNode = new StringNode(ctx.STRING_LITERAL().getText());
+        StringNode stringNode = new StringNode(extractPosition(ctx), ctx.STRING_LITERAL().getText());
         return stringNode;
     }
 
@@ -225,7 +235,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
      */
     @Override
     public ASTBase visitNumber_literal(@NotNull MassiveParser.Number_literalContext ctx) {
-        return new NumberNode(ctx.NUMBER_LITERAL().getText());
+        return new NumberNode(extractPosition(ctx), ctx.NUMBER_LITERAL().getText());
     }
 
     /**
@@ -236,7 +246,7 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
      */
     @Override
     public ASTBase visitBoolean_literal(@NotNull MassiveParser.Boolean_literalContext ctx) {
-        return new BooleanNode(ctx.BOOLEAN_LITERAL().getText());
+        return new BooleanNode(extractPosition(ctx), ctx.BOOLEAN_LITERAL().getText());
     }
 
     /**
@@ -247,6 +257,6 @@ public class ASTBuilderVisitor extends AbstractParseTreeVisitor<ASTBase> impleme
      */
     @Override
     public ASTBase visitId_operand(@NotNull MassiveParser.Id_operandContext ctx) {
-        return new IDNode(ctx.getText());
+        return new IDNode(extractPosition(ctx), ctx.getText());
     }
 }

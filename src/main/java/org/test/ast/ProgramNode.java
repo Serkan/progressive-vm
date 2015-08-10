@@ -1,6 +1,7 @@
 package org.test.ast;
 
 import org.test.ast.visitor.ASTVisitor;
+import org.test.gen.CodePosition;
 
 import java.util.List;
 
@@ -12,7 +13,8 @@ public class ProgramNode extends ASTBase {
     List<StatementNode> statements;
 
 
-    public ProgramNode(List<StatementNode> statements) {
+    public ProgramNode(CodePosition pos, List<StatementNode> statements) {
+        super(pos);
         this.statements = statements;
     }
 

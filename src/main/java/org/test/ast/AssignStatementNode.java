@@ -1,6 +1,7 @@
 package org.test.ast;
 
 import org.test.ast.visitor.ASTVisitor;
+import org.test.gen.CodePosition;
 
 /**
  * Created by serkan on 29.06.2015.
@@ -12,7 +13,8 @@ public class AssignStatementNode extends StatementNode {
     private ExpressionNode expression;
 
 
-    public AssignStatementNode(String variable, ExpressionNode expression) {
+    public AssignStatementNode(CodePosition pos, String variable, ExpressionNode expression) {
+        super(pos);
         this.variable = variable;
         this.expression = expression;
     }

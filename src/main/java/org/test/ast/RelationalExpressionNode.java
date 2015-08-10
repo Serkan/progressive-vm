@@ -1,6 +1,7 @@
 package org.test.ast;
 
 import org.test.ast.visitor.ASTVisitor;
+import org.test.gen.CodePosition;
 
 /**
  * Created by serkan on 29.06.2015.
@@ -13,7 +14,8 @@ public class RelationalExpressionNode extends ExpressionNode {
 
     private final String operator;
 
-    public RelationalExpressionNode(String operator, ExpressionNode leftNode, ExpressionNode rightNode) {
+    public RelationalExpressionNode(CodePosition pos, String operator, ExpressionNode leftNode, ExpressionNode rightNode) {
+        super(pos);
         this.operator = operator;
         this.leftNode = leftNode;
         this.rightNode = rightNode;
